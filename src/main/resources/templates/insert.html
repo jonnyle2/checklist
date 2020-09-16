@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>ACP Check-In</title>
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    </head>
+
+    <body>
+    	<div>
+	        <form action="#" th:action="@{/addSchool}" th:object="${school}" method="POST">
+	            <fieldset>
+	            	<legend>Add School</legend>
+		            <table>
+		                <tr>
+		                    <td>TEA:</td>
+		                    <td><input type="number" th:field="*{tea}"/></td>
+		                    <td th:if="${#fields.hasErrors('tea')}" th:errors="*{tea}">TEA error!</td>
+		                </tr>
+		                <tr>
+		                    <td>School Name:</td>
+		                    <td><input type="text" th:field="*{name}"/></td>
+		                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error!</td>
+		                </tr>
+		                <tr>
+		                    <td>Route:</td>
+		                    <td><input type="text" th:field="*{route}"/></td>
+		                    <td th:if="${#fields.hasErrors('route')}" th:errors="*{route}">Route error!</td>
+		                </tr>
+		                <tr>
+		                    <td><input type="submit" value="Submit"/></td>
+		                </tr>
+		            </table>
+	            </fieldset>
+        	</form>
+  		</div>
+  		<div>
+	        <table>
+	        	<thead>
+                <tr th:unless="${#lists.isEmpty(schools)}">
+                    <th>TEA</th>
+                    <th>School Name</th>
+                    <th>Route</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="school : ${schools}">
+                    <td th:text="${#numbers.formatDecimal(school.tea,3,0)}">000</td>
+                    <td th:text="${school.name}">Dallas School</td>
+                    <td th:text="${school.route}">A01</td>
+                </tr>
+            </tbody>
+	        </table>
+        </div>
+    </body>
+</html>

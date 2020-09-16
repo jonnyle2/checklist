@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ACP Check-In</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+</head>
+
+<body>
+    <div>
+        <form action="#" th:action="@{/aci}" th:object="${checkIn}" method="POST">
+            <fieldset>
+                <legend>Check-In</legend>
+                <table>
+                    <tr>
+                        <td>School:</td>
+                        <td>
+                            <select name="schools">
+                                <option th:each="school: ${unchecked}" th:text="'(' + ${#numbers.formatDecimal(school.tea,3,0)} + ') ' + ${school.name}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Number of boxes:</td>
+                        <td><input type="number" th:field="*{box}"></td>
+                        <td th:if="${#fields.hasErrors('box')}" th:errors="*{box}">Box errors!</td>
+                    </tr>
+                    <tr>
+                        <td>Number of envelopes:</td>
+                        <td><input type="number" th:field="*{envelope}"></td>
+                        <td th:if="${#fields.hasErrors('envelope')}" th:errors="*{envelope}">Envelope error!</td>
+                    </tr>
+                    <tr>
+                        <td>Comment:</td>
+                        <td><input type="text" name="comment"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" name="submit" value="Check-In"></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+
+        
+    </div>
+    
+    <div>
+        <table>
+            <thead>
+                <tr th:unless="${#lists.isEmpty(checkedIn)}">
+                    <th>TEA</th>
+                    <th>School Name</th>
+                    <th>Boxes</th>
+                    <th>Envelopes</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="checked, iterStat : ${checkedIn}">
+                    <td th:text="${#numbers.formatDecimal(checked.tea,3,0)}">000</td>
+                    <td th:text="${checked.school.name}">Dallas School</td>
+                    <td th:text="${checked.box}">0</td>
+                    <td th:text="${checked.envelope}">0</td>
+                    <td th:text="${checked.comment}">No comment</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

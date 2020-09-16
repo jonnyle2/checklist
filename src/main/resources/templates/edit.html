@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ACP Check-In</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+</head>
+
+<body>
+	<h3 th:if="${#lists.isEmpty(checkedIn)}"></h3>
+	<table>
+		<tr th:unless="${#lists.isEmpty(checkedIn)}">
+			<th>TEA</th>
+			<th>School Name</th>
+			<th>Boxes</th>
+			<th>Envelopes</th>
+			<th>Comments</th>
+		</tr>
+		<tr th:each="checked : ${checkedIn}">
+			<td th:text="${#numbers.formatDecimal(checked.tea,3,0)}">000</td>
+			<td th:text="${checked.school.name}">Dallas School</td>
+			<td th:text="${checked.box}">0</td>
+            <td th:text="${checked.envelope}">0</td>
+            <td th:text="${checked.comment}">No comment</td>
+            <td><a th:href="@{/editCheckIn/{tea}(tea=${checked.tea})}">Edit</a></td>
+            <td><a th:href="@{/delete/{tea}(tea=${checked.tea})}">Delete</a></td>
+           </tr>
+	</table>
+	<br>
+	<form action="#" th:action="@{/editCheckIn}" method="POST">
+		<button type="submit" name="deleteAll">Delete All</button>
+	</form>
+</body>
+</html>

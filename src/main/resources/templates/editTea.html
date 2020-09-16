@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h3 th:text="|Editing Checked-In for (${checkIn.tea}) ${checkIn.school.name}|">Editing Checked-In for (000) InsertSchoolName</h3>
+        <form action="#" th:action="@{/editCheckIn/{tea}(tea=${checkIn.tea})}" th:object="${checkIn}" method="POST">
+            <table>
+                <tr>
+                    <td>Number of boxes:</td>
+                    <td><input type="number" th:field="*{box}" th:placeholder="${checkIn.box}"/></td>
+                    <td th:if="${#fields.hasErrors('box')}" th:errors="*{box}">Box error!</td>
+                </tr>
+                <tr>
+                    <td>Number of envelopes:</td>
+                    <td><input type="number" th:field="*{envelope}" th:placeholder="${checkIn.envelope}"/></td>
+                    <td th:if="${#fields.hasErrors('envelope')}" th:errors="*{envelope}">Envelope error!</td>
+                </tr>
+                <tr>
+                    <td>Comment:</td>
+                    <td><input type="text" th:field="*{comment}" th:placeholder="${checkIn.comment}"/></td>
+                    <td th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment error!</td>
+                </tr>
+                <tr>
+                	<td></td>
+                    <td><input type="submit" value="Save"/></td>
+                </tr>
+            </table>
+        </form>
+</body>
+</html>
