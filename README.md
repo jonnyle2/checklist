@@ -1,1 +1,3 @@
-# checklist
+# Checklist
+
+![](demo.gif)
