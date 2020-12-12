@@ -1,3 +1,3 @@
 # Checklist
 
-<img src="demo.gif" width="250"/>
+<img src="demo.gif" width="50%"/>
