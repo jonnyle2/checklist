@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +45,21 @@ public class MainController {
     @ModelAttribute(name = "checkedIn")
     public List<CheckIn> allCheckIn(){
         return (List<CheckIn>) this.checkInRepo.findAll();
+    }
+
+    @ModelAttribute(name = "isAdmin")
+    public boolean isAdmin(){
+        if (SecurityContextHolder.getContext().getAuthentication() != null && 
+            SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+            !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
+                return true;
+            }
+        return false;
+    }
+
+    @PostMapping(value = "/aciSuccess")
+    public String adminLoggedIn(){
+        return "redirect:/aci";
     }
 
     @PostMapping(value = "/aci")
@@ -92,7 +109,7 @@ public class MainController {
         return "edit";
     }
     
-    @GetMapping(value = "/editCheckIn/{tea}")
+    @GetMapping(value = "/editCheckIn/{tea}", params = "editCheckIn")
     public String showEditCheckIn(@PathVariable Integer tea, Model model) {
     	model.addAttribute("checkIn", checkInRepo.findById(tea).get());
     	return "editTea";
@@ -114,7 +131,7 @@ public class MainController {
     	return "redirect:/editCheckIn";
     }
     
-    @GetMapping(value = "/delete/{tea}")
+    @PostMapping(value = "/delete/{tea}", params = "deleteCheckIn")
     public String deleteCheckIn(@PathVariable Integer tea) {
     	checkInRepo.deleteById(tea);
     	return "redirect:/editCheckIn";

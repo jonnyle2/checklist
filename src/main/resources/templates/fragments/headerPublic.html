@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="../../static/css/navbar.css" th:href="@{/css/navbar.css}" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div th:fragment="header">
+        <ul>
+            <li><a href="#" th:href="@{/aci}">Home</a></li>
+            <form th:action="@{/login}" method="GET">
+                <li style="float:right"><input class="signout" type="submit" value="Sign In"/></li>
+            </form>
+        </ul>
+    </div>
+</body>
+</html>

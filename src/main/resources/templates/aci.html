@@ -3,13 +3,17 @@
 <head>
     <title>ACP Check-In</title>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="../static/css/navbar.css" th:href="@{/css/navbar.css}" type="text/css" rel="stylesheet"/>
 </head>
 
 <body>
+    <div th:replace="${isAdmin}? ~{fragments/headerAdmin.html :: header} : ~{fragments/headerPublic.html :: header}"></div>
+    <br>
     <div>
         <form action="#" th:action="@{/aci}" th:object="${checkIn}" method="POST">
             <fieldset>
-                <legend>Check-In</legend>
+                <legend><h3>Check-In</h3></legend>
                 <table>
                     <tr>
                         <td>School:</td>
@@ -43,9 +47,9 @@
 
         
     </div>
-    
+    <br>
     <div>
-        <table>
+        <table class="schoolList">
             <thead>
                 <tr th:unless="${#lists.isEmpty(checkedIn)}">
                     <th>TEA</th>
@@ -56,7 +60,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="checked, iterStat : ${checkedIn}">
+                <tr th:each="checked, iterStat : ${checkedIn}" th:class="${iterStat.even}? 'even' : 'odd'">
                     <td th:text="${#numbers.formatDecimal(checked.tea,3,0)}">000</td>
                     <td th:text="${checked.school.name}">Dallas School</td>
                     <td th:text="${checked.box}">0</td>
@@ -66,5 +70,6 @@
             </tbody>
         </table>
     </div>
+    <div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>

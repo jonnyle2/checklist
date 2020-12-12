@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="../../static/css/navbar.css" th:href="@{/css/navbar.css}" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div th:fragment="header">
+        <ul>
+            <li><a href="#" th:href="@{/aci}">Home</a></li>
+            <li><a href="#" th:href="@{/editCheckIn}">Edit Check-In</a></li>
+            <li><a href="#" th:href="@{/addSchool}">Add School</a></li>
+            <form th:action="@{/logout}" method="POST">
+                <li style="float:right"><input class="signout" type="submit" value="Sign Out"/></li>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
+        </ul>
+    </div>
+</body>
+</html>

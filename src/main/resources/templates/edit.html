@@ -2,32 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>ACP Check-In</title>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link href="../static/css/navbar.css" th:href="@{/css/navbar.css}" type="text/css" rel="stylesheet"/>
 </head>
 
 <body>
-	<h3 th:if="${#lists.isEmpty(checkedIn)}"></h3>
-	<table>
-		<tr th:unless="${#lists.isEmpty(checkedIn)}">
-			<th>TEA</th>
-			<th>School Name</th>
-			<th>Boxes</th>
-			<th>Envelopes</th>
-			<th>Comments</th>
-		</tr>
-		<tr th:each="checked : ${checkedIn}">
-			<td th:text="${#numbers.formatDecimal(checked.tea,3,0)}">000</td>
-			<td th:text="${checked.school.name}">Dallas School</td>
-			<td th:text="${checked.box}">0</td>
-            <td th:text="${checked.envelope}">0</td>
-            <td th:text="${checked.comment}">No comment</td>
-            <td><a th:href="@{/editCheckIn/{tea}(tea=${checked.tea})}">Edit</a></td>
-            <td><a th:href="@{/delete/{tea}(tea=${checked.tea})}">Delete</a></td>
-           </tr>
-	</table>
+	<div th:replace="fragments/headerAdmin.html :: header"></div>
 	<br>
-	<form action="#" th:action="@{/editCheckIn}" method="POST">
-		<button type="submit" name="deleteAll">Delete All</button>
-	</form>
+	<div>
+		<h3 th:text="${#lists.isEmpty(checkedIn)}? 'No Check-Ins' : 'List of Checked-In'">List of Checked-In</h3>
+		<table class="schoolList">
+			<tr th:unless="${#lists.isEmpty(checkedIn)}">
+				<th>TEA</th>
+				<th>School Name</th>
+				<th>Boxes</th>
+				<th>Envelopes</th>
+				<th>Comments</th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr th:each="checked, iterStat : ${checkedIn}" th:class="${iterStat.even}? 'even' : 'odd'">
+				<td th:text="${#numbers.formatDecimal(checked.tea,3,0)}">000</td>
+				<td th:text="${checked.school.name}">Dallas School</td>
+				<td th:text="${checked.box}">0</td>
+				<td th:text="${checked.envelope}">0</td>
+				<td th:text="${checked.comment}">No comment</td>
+				<form action="#" th:action="@{/editCheckIn/{tea}(tea=${checked.tea})}" method="GET">
+					<td><button type="submit" name="editCheckIn" class="editButton">Edit</button></td>
+				</form>
+				<form action="#" th:action="@{/delete/{tea}(tea=${checked.tea})}" method="POST">
+					<td><button type="submit" name="deleteCheckIn" class="deleteButton">Delete</button></td>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				</form>
+			</tr>
+		</table>
+		<br>
+		<form action="#" th:action="@{/editCheckIn}" method="POST">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			<button th:unless="${#lists.isEmpty(checkedIn)}" type="submit" name="deleteAll" class="deleteAll">Delete All</button>
+		</form>
+	</div>
+	<br>
+	<div th:replace="fragments/footer.html :: footer"></div>
 </body>
 </html>

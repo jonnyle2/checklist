@@ -2,14 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>ACP Check-In</title>
-        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
-    </head>
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link href="../static/css/navbar.css" th:href="@{/css/navbar.css}" type="text/css" rel="stylesheet"/>
+	</head>
 
     <body>
+		<div th:replace="fragments/headerAdmin.html :: header"></div>
+		<br>
     	<div>
-	        <form action="#" th:action="@{/addSchool}" th:object="${school}" method="POST">
+			<form action="#" th:action="@{/addSchool}" th:object="${school}" method="POST">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	            <fieldset>
-	            	<legend>Add School</legend>
+	            	<legend><h3>Add School</h3></legend>
 		            <table>
 		                <tr>
 		                    <td>TEA:</td>
@@ -27,14 +32,16 @@
 		                    <td th:if="${#fields.hasErrors('route')}" th:errors="*{route}">Route error!</td>
 		                </tr>
 		                <tr>
+							<td></td>
 		                    <td><input type="submit" value="Submit"/></td>
 		                </tr>
 		            </table>
 	            </fieldset>
         	</form>
-  		</div>
+		  </div>
+		  <br>
   		<div>
-	        <table>
+	        <table class="schoolList">
 	        	<thead>
                 <tr th:unless="${#lists.isEmpty(schools)}">
                     <th>TEA</th>
@@ -43,13 +50,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="school : ${schools}">
+                <tr th:each="school, iterStat : ${schools}" th:class="${iterStat.even}? 'even' : 'odd'">
                     <td th:text="${#numbers.formatDecimal(school.tea,3,0)}">000</td>
                     <td th:text="${school.name}">Dallas School</td>
                     <td th:text="${school.route}">A01</td>
                 </tr>
             </tbody>
 	        </table>
-        </div>
+		</div>
+		<div th:replace="fragments/footer.html :: footer"></div>
     </body>
 </html>

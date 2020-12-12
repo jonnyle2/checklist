@@ -2,6 +2,7 @@ package com.jonnyle.checklist;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -12,12 +13,13 @@ import lombok.Data;
 public class School {
     @Id
     @NotNull(message = "Please enter a tea.")
+    @Min(value = 0, message = "Cannot have negative number.")
     private Integer tea;
 
     @Size(min = 3, message = "Name must have minimum of 2 characters.")
     private String name;
 
-    @Size(min = 3, max = 3, message = "Please enter correct route")
+    @Size(min = 3, max = 3, message = "Please enter correct route.")
     private String route;
 
     School(){

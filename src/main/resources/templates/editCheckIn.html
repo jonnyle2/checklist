@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ACP Check-In</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="../static/css/navbar.css" th:href="@{/css/navbar.css}" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div th:replace="fragments/headerAdmin.html :: header"></div>
+    <br>
+    <h3 th:text="|Editing - (${checkIn.tea}) ${checkIn.school.name}|">Editing - (000) InsertSchoolName</h3>
+    <form action="#" th:action="@{/editCheckIn/{tea}(tea=${tea})}" th:object="${checkIn}" method="POST">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <table>
+            <tr>
+                <td>Boxes:</td>
+                <td><input type="number" th:field="*{box}" th:placeholder="${checkIn.box}"/></td>
+                <td th:if="${#fields.hasErrors('box')}" th:errors="*{box}">Box count error!</td>
+            </tr>
+            <tr>
+                <td>Envelopes:</td>
+                <td><input type="number" th:field="*{envelope}" th:placeholder="${checkIn.envelope}"/></td>
+                <td th:if="${#fields.hasErrors('envelope')}" th:errors="*{envelope}">Envelope count error!</td>
+            </tr>
+            <tr>
+                <td>Comment:</td>
+                <td><input type="text" th:field="*{comment}" th:placeholder="${checkIn.comment}"/></td>
+                <td th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment error!</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Save"/></td>
+            </tr>
+        </table>
+    </form>
+    <div th:replace="fragments/footer.html :: footer"></div>
+</body>
