@@ -1,3 +1,3 @@
 # Checklist
 
-![](demo.gif)
+<img src="demo.gif" width="250"/>
